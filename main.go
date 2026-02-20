@@ -4,7 +4,6 @@ import (
 	"cligo/commands"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 func main() {
@@ -14,17 +13,11 @@ func main() {
 		return
 	}
 	command := args[1]
-	switch command {
-	case "list":
-		commands.GetTasksList()
-	case "add":
-		commands.AddTask(args[2:])
-	case "done":
-		id, err := strconv.Atoi(args[2])
-		if err != nil {
-			fmt.Println("Invalid task id")
+	for _, cmd := range commands.CommandStruct {
+		if cmd.Name == command {
+			cmd.Action(args[2:])
 			return
 		}
-		commands.TaskDone(id)
 	}
+	fmt.Println("Invalid command!")
 }
