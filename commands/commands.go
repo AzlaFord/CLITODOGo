@@ -22,6 +22,7 @@ func GetCommands() []Command {
 		{"help", "Actions list", Help},
 		{"clear", "Clear TODO list", ClearTasks},
 		{"delete", "Removes a task", Delete},
+		{"edit", "edits a task", EditTask},
 	}
 }
 
@@ -106,4 +107,29 @@ func Delete(args []string) {
 	}
 	storage.SaveTasks(tasksList)
 	fmt.Println("The TODO was removed!")
+}
+
+func EditTask(args []string) {
+	tasksList := storage.LoadTasks()
+	if len(args) < 2 {
+		fmt.Println("Usage: todo edit <id> <new title>")
+		return
+	}
+	if len(tasksList) == 0 {
+		fmt.Println("There are no tasks undone")
+		return
+	}
+	id, err := strconv.Atoi(args[0])
+	if err != nil {
+		fmt.Println("Invalid task id")
+		return
+	}
+	title := strings.Join(args[1:], " ")
+	for i, task := range tasksList {
+		if task.Id == id {
+			tasksList[i].Title = title
+		}
+	}
+	fmt.Println("Task was edited succesifuly!")
+	storage.SaveTasks(tasksList)
 }
