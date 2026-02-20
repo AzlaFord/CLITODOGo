@@ -13,7 +13,7 @@ func main() {
 		return
 	}
 	command := args[1]
-	for _, cmd := range commands.CommandStruct {
+	for _, cmd := range commands.GetCommands() {
 		if cmd.Name == command {
 			cmd.Action(args[2:])
 			return

@@ -21,15 +21,8 @@ func GetCommands() []Command {
 		{"done", "Mark task as done", MarkDone},
 		{"help", "Actions list", Help},
 		{"clear", "Clear TODO list", ClearTasks},
+		{"delete", "Removes a task", Delete},
 	}
-}
-
-var CommandStruct = []Command{
-	{"list", "List all Tasks ", GetTasksList},
-	{"add", "Add tasks to the list ", AddTask},
-	{"done", "Mark task as done ", MarkDone},
-	{"help", "Actions list ", Help},
-	{"clear", "Clear TODO list", ClearTasks},
 }
 
 func GetTasksList(args []string) {
@@ -41,6 +34,7 @@ func GetTasksList(args []string) {
 		fmt.Printf("%d. %s [Done: %v]\n", t.Id, t.Title, t.Done)
 	}
 }
+
 func AddTask(args []string) {
 	tasksList := storage.LoadTasks()
 	title := strings.Join(args, " ")
@@ -56,6 +50,7 @@ func AddTask(args []string) {
 	tasksList = append(tasksList, newTask)
 	storage.SaveTasks(tasksList)
 }
+
 func MarkDone(args []string) {
 	tasksList := storage.LoadTasks()
 	if len(tasksList) == 0 {
@@ -85,8 +80,30 @@ func Help(args []string) {
 	}
 
 }
-func ClearTasks([]string) {
+
+func ClearTasks(args []string) {
 	tasklist := []tasks.Task{}
 	storage.SaveTasks(tasklist)
 	fmt.Println("The TODO list was cleared ")
+}
+
+func Delete(args []string) {
+	tasksList := storage.LoadTasks()
+	if len(tasksList) == 0 {
+		fmt.Println("There are no tasks undone")
+		return
+	}
+	values := strings.Join(args, " ")
+	num, err := strconv.Atoi(values)
+	if err != nil {
+		return
+	}
+	for i, task := range tasksList {
+		if task.Id == num {
+			tasksList = append(tasksList[:i], tasksList[i+1:]...)
+			break
+		}
+	}
+	storage.SaveTasks(tasksList)
+	fmt.Println("The TODO was removed!")
 }
