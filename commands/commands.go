@@ -31,3 +31,18 @@ func AddTask(args []string) {
 	tasksList = append(tasksList, newTask)
 	storage.SaveTasks(tasksList)
 }
+func TaskDone(args int) {
+	tasksList := storage.LoadTasks()
+	if len(tasksList) == 0 {
+		fmt.Println("There are no tasks undone")
+		return
+	}
+
+	for i := range tasksList {
+		if tasksList[i].Id == args && !tasksList[i].Done {
+			tasksList[i].Done = true
+			fmt.Println("Task found and Done ,use command list")
+		}
+	}
+	storage.SaveTasks(tasksList)
+}
