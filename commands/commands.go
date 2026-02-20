@@ -14,10 +14,20 @@ type Command struct {
 	Action      func(args []string)
 }
 
+func GetCommands() []Command {
+	return []Command{
+		{"list", "List all Tasks", GetTasksList},
+		{"add", "Add tasks to the list", AddTask},
+		{"done", "Mark task as done", MarkDone},
+		{"help", "Actions list", Help},
+	}
+}
+
 var CommandStruct = []Command{
 	{"list", "List all Tasks ", GetTasksList},
 	{"add", "Add tasks to the list ", AddTask},
 	{"done", "Mark task as done ", MarkDone},
+	{"help", "Actions list ", Help},
 }
 
 func GetTasksList(args []string) {
@@ -63,4 +73,13 @@ func MarkDone(args []string) {
 		}
 	}
 	storage.SaveTasks(tasksList)
+}
+
+func Help(args []string) {
+	fmt.Println("Usage : todo <command> [arguments]")
+	fmt.Println("Commands: ")
+	for _, cmds := range GetCommands() {
+		fmt.Printf(" %-6s       %s \n", cmds.Name, cmds.Description)
+	}
+
 }
