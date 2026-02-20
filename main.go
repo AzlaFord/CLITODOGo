@@ -1,10 +1,21 @@
 package main
 
 import (
+	"cligo/commands"
 	"fmt"
-	"cligo/tasks"
+	"os"
 )
 
 func main() {
-	fmt.Println("TODO APP")
+	args := os.Args
+	if len(args) < 2 {
+		fmt.Println("Usage : todo <command> [arguments]")
+		return
+	}
+	command := args[1]
+	switch command {
+	case "list":
+		commands.GetTasksList()
+	}
+
 }
