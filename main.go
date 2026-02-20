@@ -16,6 +16,7 @@ func main() {
 	switch command {
 	case "list":
 		commands.GetTasksList()
+	case "add":
+		commands.AddTask(args[2])
 	}
-
 }
