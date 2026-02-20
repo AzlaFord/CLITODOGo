@@ -32,3 +32,4 @@ func SaveTasks(w []tasks.Task) error {
 	return os.WriteFile("storage.json", file, 0644)
 
 }
+

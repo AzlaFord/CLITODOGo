@@ -20,6 +20,7 @@ func GetCommands() []Command {
 		{"add", "Add tasks to the list", AddTask},
 		{"done", "Mark task as done", MarkDone},
 		{"help", "Actions list", Help},
+		{"clear", "Clear TODO list", ClearTasks},
 	}
 }
 
@@ -28,6 +29,7 @@ var CommandStruct = []Command{
 	{"add", "Add tasks to the list ", AddTask},
 	{"done", "Mark task as done ", MarkDone},
 	{"help", "Actions list ", Help},
+	{"clear", "Clear TODO list", ClearTasks},
 }
 
 func GetTasksList(args []string) {
@@ -82,4 +84,9 @@ func Help(args []string) {
 		fmt.Printf(" %-6s       %s \n", cmds.Name, cmds.Description)
 	}
 
+}
+func ClearTasks([]string) {
+	tasklist := []tasks.Task{}
+	storage.SaveTasks(tasklist)
+	fmt.Println("The TODO list was cleared ")
 }
